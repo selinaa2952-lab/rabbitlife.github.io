@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rabbit Life | 兔兔飼養知識互動學習平台</title>
+    <style>
+        :root {
+            --primary-color: #8fb996; 
+            --secondary-color: #e88d67; 
+            --bg-color: #fdfbf7;
+            --text-color: #4a4a4a;
+            --card-bg: #ffffff;
+            --overlay-color: rgba(255, 255, 255, 0.9); 
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, 'LiHei Pro', '微軟正黑體', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: url('ChatGPT Image 2026年6月9日 下午01_49_00.png'); 
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        nav button:hover, nav button.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 30px 20px;
+            min-height: 70vh;
+            background-color: var(--overlay-color);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .page-section {
+            display: none; 
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .page-section.active {
+            display: block; 
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .hero h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.1em;
+            color: #666;
+        }
+        
+        .decoration-images {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            gap: 20px;
+        }
+        
+        .decoration-images img {
+            width: 140px;
+            height: auto;
+            transition: transform 0.3s;
+        }
+        
+        .decoration-images img:hover {
+            transform: scale(1.1);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section-header h2 {
+            color: var(--primary-color);
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .section-header p {
+            color: #666;
+            background: #f0f0f0;
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.95em;
+        }
+
+        .section-banner {
+            display: block;
+            margin: 0 auto 30px;
+            width: 160px;
+            height: auto;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            height: 220px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-radius: 15px;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .flip-card-front {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+            font-weight: bold;
+            font-size: 1.15em;
+        }
+
+        .flip-card-back {
+            background-color: var(--primary-color);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1.05em;
+            text-align: justify;
+        }
+
+        .medical-card .flip-card-front {
+            border-color: #d9534f;
+        }
+        .medical-card .flip-card-back {
+            background-color: #d9534f;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #333;
+            color: white;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <button class="nav-btn active" data-target="home">首頁</button>
+            <button class="nav-btn" data-target="myth">迷思破解</button>
+            <button class="nav-btn" data-target="knowledge">知識學習</button>
+            <button class="nav-btn" data-target="situation">情境判斷</button>
+            <button class="nav-btn" data-target="behavior">行為解讀</button>
+            <button class="nav-btn" data-target="medical">醫療警示</button>
+            <button class="nav-btn" data-target="responsibility">責任飼養</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="page-section active">
+            <div class="hero">
+                <h1>Rabbit Life</h1>
+                <h2>兔兔飼養知識互動學習平台</h2>
+                <p>Learn Rabbit Care Through Interactive Learning</p>
+                
+                <div class="decoration-images">
+                    <img src="ChatGPT Image 2026年6月9日 上午11_13_13.png" alt="愛心兔">
+                    <img src="ChatGPT Image 2026年6月9日 上午11_13_18.png" alt="乖乖兔">
+                    <img src="ChatGPT Image 2026年6月10日 上午10_30_48.png" alt="思考兔">
+                </div>
+                <p style="font-weight: bold; color: var(--secondary-color); font-size: 1.2em;">點擊上方選單，開始你的兔兔照護學習之旅！</p>
+            </div>
+        </section>
+
+        <section id="myth" class="page-section">
+            <div class="section-header">
+                <h2>迷思破解</h2>
+                <p>學習目的: 破解常見錯誤飼養迷思，建立正確的兔子照護觀念。（點擊卡片看解答）</p>
+            </div>
+            <img src="ChatGPT Image 2026年6月10日 上午10_30_48.png" class="section-banner" alt="困惑兔">
+            <div class="card-grid">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">兔子喝水會死嗎？</div>
+                        <div class="flip-card-back">錯誤！兔子需要隨時補充乾淨的飲用水，缺水會導致嚴重疾病甚至死亡。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">兔子可以洗澡嗎？</div>
+                        <div class="flip-card-back">不建議！兔子會自行理毛，水洗容易造成失溫或極度驚嚇而心臟驟停休克。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">紅蘿蔔是兔子的主食嗎？</div>
+                        <div class="flip-card-back">錯誤！兔子的主食是無限量的「牧草」，紅蘿蔔糖分過高，只能當作少量零食。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">迷你兔長大不會變大嗎？</div>
+                        <div class="flip-card-back">錯誤！沒有長不大的兔子，所謂的迷你兔在外國也是能長到1.5~2公斤以上的。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="knowledge" class="page-section">
+            <div class="section-header">
+                <h2>知識學習</h2>
+                <p>學習目的: 建立兔子飼養的基礎知識，強化正確的照護觀念。</p>
+            </div>
+            <img src="ChatGPT Image 2026年6月9日 上午10_16_40.png" class="section-banner" alt="吃草兔">
+            <div class="card-grid">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">兔子的牙齒有什麼特性？</div>
+                        <div class="flip-card-back">兔子的牙齒會「終身不斷生長」，因此必須吃大量牧草來磨牙，避免牙齒過長刺穿口腔。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">兔子的平均壽命多久？</div>
+                        <div class="flip-card-back">在正確與細心的照護下，兔子的平均壽命通常可達 8 到 12 年，甚至更久。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">成兔每天需要多少牧草？</div>
+                        <div class="flip-card-back">無限量！牧草應佔兔子日常飲食的 80% 以上，必須隨時保持草盆全滿。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">兔子的視覺與聽覺特性。</div>
+                        <div class="flip-card-back">聽覺極其靈敏；視覺範圍廣達360度，慢速或靜態物體在正前方反而是盲點。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="situation" class="page-section">
+            <div class="section-header">
+                <h2>情境判斷</h2>
+                <p>學習目的: 透過情境模擬，培養面對實際照護問題時的判斷能力。</p>
+            </div>
+            <img src="ChatGPT Image 2026年6月9日 下午04_58_17.png" class="section-banner" alt="答對兔">
+            <div class="card-grid">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">換毛期間應如何照顧？</div>
+                        <div class="flip-card-back">勤勞幫兔子梳毛！並可補充適量化毛膏，防止兔子舔入過多廢毛造成腸胃阻塞。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">兔子指甲太長怎麼辦？</div>
+                        <div class="flip-card-back">使用專用指甲剪，避開粉紅色血管（神經）進行修剪，或請專業獸醫協助。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">搬家時如何讓兔子適應新環境？</div>
+                        <div class="flip-card-back">保留有牠味道的舊物品與便盆，提供安靜避光的角落讓牠躲藏，不要強行互動。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">發現兔子啃咬家具時如何處理？</div>
+                        <div class="flip-card-back">不可打罵。應使用圍欄隔離家具，並提供充足的蘋果木或啃咬玩具轉移注意力。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="behavior" class="page-section">
+            <div class="section-header">
+                <h2>行為解讀</h2>
+                <p>學習目的: 理解兔子的行為語言，建立正確的人兔互動方式。</p>
+            </div>
+            <img src="ChatGPT Image 2026年6月9日 上午10_31_34.png" class="section-banner" alt="跺腳兔">
+            <div class="card-grid">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">兔子跺腳代表什麼？</div>
+                        <div class="flip-card-back">代表生氣、抗議或感到危險！牠在警告同伴或表達強烈的不滿。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">為什麼兔子會磨下巴？</div>
+                        <div class="flip-card-back">兔子的下巴有香腺，磨下巴是為了「留下氣味、宣示主權」，表示「這是我的！」。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">兔子突然咬人可能代表什麼？</div>
+                        <div class="flip-card-back">可能是地盤被侵犯、感到恐懼、身體疼痛，或是你手上帶有牠不喜歡/陌生的氣味。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">兔子兔子舞（Binky）代表什麼？</div>
+                        <div class="flip-card-back">極度開心！當兔子原地跳躍、在空中扭動身體時，表示牠現在覺得安全且快樂。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="medical" class="page-section">
+            <div class="section-header">
+                <h2>醫療警示</h2>
+                <p>學習目的: 培養使用者辨識疾病徵兆與緊急狀況的能力，建立正確的就醫觀念。</p>
+            </div>
+            <img src="ChatGPT Image 2026年6月9日 下午04_54_29.png" class="section-banner" alt="生病兔">
+            <div class="card-grid">
+                <div class="flip-card medical-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">兔子12小時不吃東西怎麼辦？</div>
+                        <div class="flip-card-back">【緊急狀況】兔子超過12小時不吃不喝便有致命危險，必須立刻送往會看兔子的特寵動物醫院！</div>
+                    </div>
+                </div>
+                <div class="flip-card medical-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">張嘴呼吸是否正常？</div>
+                        <div class="flip-card-back">【極度異常】兔子天生只用鼻子呼吸，若出現張嘴呼吸代表呼吸極度困難或嚴重中暑，需立刻急診。</div>
+                    </div>
+                </div>
+                <div class="flip-card medical-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">腸胃停滯有哪些症狀？</div>
+                        <div class="flip-card-back">食慾變差、便便變小甚至沒大便、母雞蹲（肚子痛的姿勢）、精神不振，是兔子的頭號殺手。</div>
+                    </div>
+                </div>
+                <div class="flip-card medical-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">哪些情況需要立即送醫？</div>
+                        <div class="flip-card-back">拒食超過12小時、嚴重拉肚子、癱軟無力、頭部歪斜(歪頭症)、流口水(牙齒問題)、骨折。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="responsibility" class="page-section">
+            <div class="section-header">
+                <h2>責任飼養</h2>
+                <p>學習目的: 建立責任飼養與終身照護觀念，培養正確的飼主態度。</p>
+            </div>
+            <img src="ChatGPT Image 2026年6月9日 上午11_13_13.png" class="section-banner" alt="愛心責任兔">
+            <div class="card-grid">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">是否願意負擔兔子的醫療費用？</div>
+                        <div class="flip-card-back">兔子的醫療屬「特寵門診」，沒有健保，醫藥費往往比犬貓更昂貴，飼養前需有足夠的經濟規劃。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">未來搬家時如何安置兔子？</div>
+                        <div class="flip-card-back">兔子是家人。租屋前必須確認房東允許養寵物，絕不能因為搬家或結婚生子而將其遺棄。</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">出國期間如何照顧兔子？</div>
+                        <div class="flip-card-back">需事先尋找可靠的兔子專門住宿旅館，或請有養兔經驗的朋友代為照料，不可獨留兔兔在家.</div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">是否願意照顧兔子的一生？</div>
+                        <div class="flip-card-back">養兔是一輩子的承諾（約10年）。隨著兔子老去，可能需要餵藥、把屎把尿，不離不棄才是負責任的飼主。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Rabbit Life 兔兔飼養知識互動學習平台. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var buttons = document.querySelectorAll('.nav-btn');
+            
+            buttons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var targetId = this.getAttribute('data-target');
+                    
+                    // 1. 隱藏所有頁面區塊
+                    var sections = document.querySelectorAll('.page-section');
+                    sections.forEach(function(section) {
+                        section.classList.remove('active');
+                    });
+
+                    // 2. 移除所有導覽按鈕的高亮
+                    buttons.forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+
+                    // 3. 顯示對應的目標分頁
+                    var targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                    }
+
+                    // 4. 將當前按鈕加上高亮
+                    this.classList.add('active');
+
+                    // 5. 將所有已翻開的卡片自動蓋回去
+                    var flippedCards = document.querySelectorAll('.flip-card.flipped');
+                    flippedCards.forEach(function(card) {
+                        card.classList.remove('flipped');
+                    });
+
+                    // 6. 讓網頁平滑捲動回頂端
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
